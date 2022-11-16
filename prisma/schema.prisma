@@ -1,0 +1,50 @@
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+  // previewFeatures = []
+}
+
+model User {
+  id        String   @id @default(cuid())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  username  String   @unique
+  password  String
+  tweets    Tweet[]
+  role      Role     @default(USER)
+  points    Int      @default(0)
+}
+
+model Tweet {
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  images    Image[]
+  content   String?
+  like      Int      @default(0)
+  User      User?    @relation(fields: [userId], references: [id])
+  userId    String?
+  tags      Tag[]
+}
+
+model Tag {
+  id      Int     @id @default(autoincrement())
+  tagName String
+  tweets  Tweet[]
+}
+
+model Image {
+  id      Int    @id @default(autoincrement())
+  src     String
+  Tweet   Tweet? @relation(fields: [tweetId], references: [id])
+  tweetId Int?
+}
+
+enum Role {
+  ADMIN
+  USER
+}
