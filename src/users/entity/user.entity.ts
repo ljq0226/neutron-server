@@ -7,6 +7,7 @@ import {
 } from '@nestjs/graphql';
 // import {  } from 'class-validator';
 import { BaseModel } from 'src/common/models/base.model';
+import { Tweet } from 'src/tweet/entities/tweet.entity';
 export enum Role {
   ADMIN,
   USER,
@@ -19,6 +20,10 @@ registerEnumType(Role, {
 
 @ObjectType()
 export class User extends BaseModel {
+
+  @Field()
+  id: string;
+
   @Field()
   username: string;
 
@@ -28,6 +33,14 @@ export class User extends BaseModel {
 
   @Field(() => Role)
   role: Role;
+
+  @Field()
+  points: number;
+
+  @Field(()=>Tweet)
+  tweets: Tweet[];
+
+
 
 
 }
