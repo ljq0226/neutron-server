@@ -7,28 +7,46 @@ generator client {
   provider = "prisma-client-js"
   // previewFeatures = []
 }
+enum Role {
+  ADMIN
+  USER
+}
 
 model User {
-  id        String   @id @default(cuid())
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  username  String   @unique
-  password  String
-  tweets    Tweet[]
-  role      Role     @default(USER)
-  points    Int      @default(0)
+  id          String       @id @default(uuid())
+  username    String    @unique
+  password    String
+  tweets      Tweet[]
+  role        Role      @default(USER)
+  points      Int       @default(0)
+  following   Following @relation(fields: [followingId], references: [id])
+  followingId Int
+  followed    Followed  @relation(fields: [followedId], references: [id])
+  followedId  Int
+  createdAt   DateTime  @default(now())
+}
+
+model Following {
+  id        Int    @id @default(autoincrement())
+  following User[] 
+}
+
+model Followed {
+  id       Int    @id @default(autoincrement())
+  followed User[]
 }
 
 model Tweet {
-  id        Int      @id @default(autoincrement())
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id        Int       @id @default(autoincrement())
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
   images    Image[]
   content   String?
-  like      Int      @default(0)
-  User      User?    @relation(fields: [userId], references: [id])
+  like      Int       @default(0)
+  User      User?     @relation(fields: [userId], references: [id])
   userId    String?
   tags      Tag[]
+  comments  Comment[]
 }
 
 model Tag {
@@ -37,14 +55,18 @@ model Tag {
   tweets  Tweet[]
 }
 
+model Comment {
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  content   String
+  tweet     Tweet?   @relation(fields: [tweetId], references: [id])
+  tweetId   Int?
+}
+
 model Image {
   id      Int    @id @default(autoincrement())
   src     String
-  Tweet   Tweet? @relation(fields: [tweetId], references: [id])
+  tweet   Tweet? @relation(fields: [tweetId], references: [id])
   tweetId Int?
 }
 
-enum Role {
-  ADMIN
-  USER
-}

@@ -5,10 +5,9 @@ import {
   HideField,
   Field,
 } from '@nestjs/graphql';
-import { IsEmail } from 'class-validator';
-import { Post } from 'src/posts/models/post.model';
+// import {  } from 'class-validator';
 import { BaseModel } from 'src/common/models/base.model';
-enum Role {
+export enum Role {
   ADMIN,
   USER,
 }
@@ -21,21 +20,14 @@ registerEnumType(Role, {
 @ObjectType()
 export class User extends BaseModel {
   @Field()
-  @IsEmail()
-  email: string;
+  username: string;
 
-  @Field(() => String, { nullable: true })
-  firstname?: string;
-
-  @Field(() => String, { nullable: true })
-  lastname?: string;
+  
+  @HideField()
+  password: string;
 
   @Field(() => Role)
   role: Role;
 
-  @Field(() => [Post], { nullable: true })
-  posts?: [Post] | null;
 
-  @HideField()
-  password: string;
 }

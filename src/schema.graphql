@@ -16,9 +16,42 @@ input ChangePasswordInput {
   oldPassword: String!
 }
 
-input CreatePostInput {
+type Comment {
   content: String!
-  title: String!
+  createAt: DateTime!
+  id: Int!
+  tweet: Tweet!
+  tweetId: Int!
+}
+
+input CreateCommentInput {
+  """Example field (placeholder)"""
+  exampleField: Int!
+}
+
+input CreateFollowedInput {
+  """Example field (placeholder)"""
+  exampleField: Int!
+}
+
+input CreateFollowingInput {
+  """Example field (placeholder)"""
+  exampleField: Int!
+}
+
+input CreateImageInput {
+  """Example field (placeholder)"""
+  exampleField: Int!
+}
+
+input CreateTagInput {
+  """Example field (placeholder)"""
+  exampleField: Int!
+}
+
+input CreateTweetInput {
+  """Example field (placeholder)"""
+  exampleField: Int!
 }
 
 """
@@ -26,88 +59,69 @@ A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date
 """
 scalar DateTime
 
+type Followed {
+  """Example field (placeholder)"""
+  exampleField: Int!
+}
+
+type Following {
+  """Example field (placeholder)"""
+  exampleField: Int!
+}
+
+type Image {
+  id: Int!
+  src: String!
+  tweet: Tweet!
+  tweetId: Int!
+}
+
 """
 A field whose value is a JSON Web Token (JWT): https://jwt.io/introduction.
 """
 scalar JWT
 
 input LoginInput {
-  email: String!
   password: String!
+  username: String!
 }
 
 type Mutation {
   changePassword(data: ChangePasswordInput!): User!
-  createPost(data: CreatePostInput!): Post!
+  createComment(createCommentInput: CreateCommentInput!): Comment!
+  createFollowed(createFollowedInput: CreateFollowedInput!): Followed!
+  createFollowing(createFollowingInput: CreateFollowingInput!): Following!
+  createImage(createImageInput: CreateImageInput!): Image!
+  createTag(createTagInput: CreateTagInput!): Tag!
+  createTweet(createTweetInput: CreateTweetInput!): Tweet!
   login(data: LoginInput!): Auth!
   refreshToken(token: JWT!): Token!
+  removeComment(id: Int!): Comment!
+  removeFollowed(id: Int!): Followed!
+  removeFollowing(id: Int!): Following!
+  removeImage(id: Int!): Image!
+  removeTag(id: Int!): Tag!
+  removeTweet(id: Int!): Tweet!
   signup(data: SignupInput!): Auth!
+  updateComment(updateCommentInput: UpdateCommentInput!): Comment!
+  updateFollowed(updateFollowedInput: UpdateFollowedInput!): Followed!
+  updateFollowing(updateFollowingInput: UpdateFollowingInput!): Following!
+  updateImage(updateImageInput: UpdateImageInput!): Image!
+  updateTag(updateTagInput: UpdateTagInput!): Tag!
+  updateTweet(updateTweetInput: UpdateTweetInput!): Tweet!
   updateUser(data: UpdateUserInput!): User!
 }
 
-"""
-Possible directions in which to order a list of items when provided an `orderBy` argument.
-"""
-enum OrderDirection {
-  asc
-  desc
-}
-
-type PageInfo {
-  endCursor: String
-  hasNextPage: Boolean!
-  hasPreviousPage: Boolean!
-  startCursor: String
-}
-
-type Post {
-  author: User
-  content: String
-
-  """Identifies the date and time when the object was created."""
-  createdAt: DateTime!
-  id: ID!
-  published: Boolean!
-  title: String!
-
-  """Identifies the date and time when the object was last updated."""
-  updatedAt: DateTime!
-}
-
-type PostConnection {
-  edges: [PostEdge!]
-  pageInfo: PageInfo!
-  totalCount: Int!
-}
-
-type PostEdge {
-  cursor: String!
-  node: Post!
-}
-
-input PostOrder {
-  direction: OrderDirection!
-  field: PostOrderField!
-}
-
-"""Properties by which post connections can be ordered."""
-enum PostOrderField {
-  content
-  createdAt
-  id
-  published
-  title
-  updatedAt
-}
-
 type Query {
+  comment(id: Int!): Comment!
+  followed(id: Int!): Followed!
+  following(id: Int!): Following!
   getUsers: [User!]!
   hello(name: String!): String!
   helloWorld: String!
-  me: User!
-  post(postId: String!): Post!
-  publishedPosts(after: String, before: String, first: Int, last: Int, orderBy: PostOrder, query: String, skip: Int): PostConnection!
-  userPosts(userId: String!): [Post!]!
+  image(id: Int!): Image!
+  tag(id: Int!): Tag!
+  tweet(id: Int!): Tweet!
 }
 
 """User role"""
@@ -117,14 +131,14 @@ enum Role {
 }
 
 input SignupInput {
-  email: String!
-  firstname: String
-  lastname: String
   password: String!
+  username: String!
 }
 
-type Subscription {
-  postCreated: Post!
+type Tag {
+  id: Int!
+  tagName: String!
+  tweets: Tweet!
 }
 
 type Token {
@@ -135,21 +149,58 @@ type Token {
   refreshToken: JWT!
 }
 
+type Tweet {
+  """Example field (placeholder)"""
+  exampleField: Int!
+}
+
+input UpdateCommentInput {
+  """Example field (placeholder)"""
+  exampleField: Int
+  id: Int!
+}
+
+input UpdateFollowedInput {
+  """Example field (placeholder)"""
+  exampleField: Int
+  id: Int!
+}
+
+input UpdateFollowingInput {
+  """Example field (placeholder)"""
+  exampleField: Int
+  id: Int!
+}
+
+input UpdateImageInput {
+  """Example field (placeholder)"""
+  exampleField: Int
+  id: Int!
+}
+
+input UpdateTagInput {
+  """Example field (placeholder)"""
+  exampleField: Int
+  id: Int!
+}
+
+input UpdateTweetInput {
+  """Example field (placeholder)"""
+  exampleField: Int
+  id: Int!
+}
+
 input UpdateUserInput {
-  firstname: String
-  lastname: String
+  username: String!
 }
 
 type User {
   """Identifies the date and time when the object was created."""
   createdAt: DateTime!
-  email: String!
-  firstname: String
   id: ID!
-  lastname: String
-  posts: [Post!]
   role: Role!
 
   """Identifies the date and time when the object was last updated."""
   updatedAt: DateTime!
+  username: String!
 }

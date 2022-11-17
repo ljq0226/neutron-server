@@ -11,7 +11,7 @@ import { UseGuards } from '@nestjs/common';
 import { UserEntity } from 'src/common/decorators/user.decorator';
 import { GqlAuthGuard } from 'src/common/guards/gql-auth.guard';
 import { UsersService } from './users.service';
-import { User } from './models/user.model';
+import { User } from './entity/user.entity';
 import { ChangePasswordInput } from './dto/change-password.input';
 import { UpdateUserInput } from './dto/update-user.input';
 
@@ -22,17 +22,12 @@ export class UsersResolver {
     private usersService: UsersService,
     private prisma: PrismaService
   ) {}
-
-  @Query(() => User)
-  async me(@UserEntity() user: User): Promise<User> {
-    return user;
-  }
-
+  //获取用户所有信息
   @Query(() => [User])
   async getUsers() {
     return this.usersService.getUSers();
   }
-
+  //更新用户信息
   @UseGuards(GqlAuthGuard)
   @Mutation(() => User)
   async updateUser(
@@ -41,13 +36,14 @@ export class UsersResolver {
   ) {
     return this.usersService.updateUser(user.id, newUserData);
   }
-
+ //更改密码
   @UseGuards(GqlAuthGuard)
   @Mutation(() => User)
   async changePassword(
     @UserEntity() user: User,
     @Args('data') changePassword: ChangePasswordInput
   ) {
+    console.log(user);
     return this.usersService.changePassword(
       user.id,
       user.password,
@@ -55,8 +51,8 @@ export class UsersResolver {
     );
   }
 
-  @ResolveField('posts')
-  posts(@Parent() author: User) {
-    return this.prisma.user.findUnique({ where: { id: author.id } }).posts();
-  }
+  // @ResolveField('posts')
+  // posts(@Parent() author: User) {
+  //   return this.prisma.user.findUnique({ where: { id: author.id } }).posts();
+  // }
 }

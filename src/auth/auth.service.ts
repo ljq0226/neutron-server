@@ -13,6 +13,11 @@ import { SignupInput } from './dto/signup.input';
 import { Token } from './models/token.model';
 import { SecurityConfig } from 'src/common/configs/config.interface';
 
+
+enum Role {
+  ADMIN= 'ADMIN',
+  USER= 'USER'
+};
 @Injectable()
 export class AuthService {
   constructor(
@@ -28,11 +33,23 @@ export class AuthService {
     );
 
     try {
+
+      const following = await this.prisma.following.create({
+        data:{
+        }
+      })
+      const followed = await this.prisma.followed.create({
+        data:{
+        }
+      })
       const user = await this.prisma.user.create({
         data: {
           ...payload,
           password: hashedPassword,
-          role: 'USER',
+          role:Role.USER,
+          points:0,
+          followedId:following.id,
+          followingId:followed.id,
         },
       });
 
@@ -41,17 +58,17 @@ export class AuthService {
       });
     } catch (e) {
       if (e.code === 'P2002') {
-        throw new ConflictException(`Email ${payload.email} already used.`);
+        throw new ConflictException(`username ${payload.username} already used.`);
       }
       throw new Error(e);
     }
   }
 
-  async login(email: string, password: string): Promise<Token> {
-    const user = await this.prisma.user.findUnique({ where: { email } });
+  async login(username: string, password: string): Promise<Token> {
+    const user = await this.prisma.user.findUnique({ where: { username } });
 
     if (!user) {
-      throw new NotFoundException(`No user found for email: ${email}`);
+      throw new NotFoundException(`No user found for username: ${username}`);
     }
 
     const passwordValid = await this.passwordService.validatePassword(
@@ -60,9 +77,8 @@ export class AuthService {
     );
 
     if (!passwordValid) {
-      throw new BadRequestException('Invalid password');
+      throw new BadRequestException('Invalid password 密码不正确');
     }
-
     return this.generateTokens({
       userId: user.id,
     });
