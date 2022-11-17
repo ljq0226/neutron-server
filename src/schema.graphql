@@ -50,8 +50,10 @@ input CreateTagInput {
 }
 
 input CreateTweetInput {
-  """Example field (placeholder)"""
-  exampleField: Int!
+  content: String!
+  images: [String!]!
+  tags: [Int!]!
+  userId: String!
 }
 
 """
@@ -107,7 +109,6 @@ type Mutation {
   updateFollowed(updateFollowedInput: UpdateFollowedInput!): Followed!
   updateFollowing(updateFollowingInput: UpdateFollowingInput!): Following!
   updateImage(updateImageInput: UpdateImageInput!): Image!
-  updateTweet(updateTweetInput: UpdateTweetInput!): Tweet!
   updateUser(data: UpdateUserInput!): User!
 }
 
@@ -115,14 +116,15 @@ type Query {
   """返回所有tags"""
   Tag_FindAll: [Tag!]!
   Tag_FindById(id: Int!): Tag!
+  Tweet_FindAll: [Tweet!]!
   comment(id: Int!): Comment!
+  findOne(id: Int!): Tweet!
   followed(id: Int!): Followed!
   following(id: Int!): Following!
   getUsers: [User!]!
   hello(name: String!): String!
   helloWorld: String!
   image(id: Int!): Image!
-  tweet(id: Int!): Tweet!
 }
 
 """User role"""
@@ -179,12 +181,6 @@ input UpdateFollowingInput {
 }
 
 input UpdateImageInput {
-  """Example field (placeholder)"""
-  exampleField: Int
-  id: Int!
-}
-
-input UpdateTweetInput {
   """Example field (placeholder)"""
   exampleField: Int
   id: Int!

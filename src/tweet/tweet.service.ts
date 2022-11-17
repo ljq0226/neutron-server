@@ -1,26 +1,68 @@
 import { Injectable } from '@nestjs/common';
+import { Image, Tag } from '@prisma/client';
+import { PrismaService } from 'nestjs-prisma';
 import { CreateTweetInput } from './dto/create-tweet.input';
-import { UpdateTweetInput } from './dto/update-tweet.input';
+import { Tweet } from './entities/tweet.entity';
 
 @Injectable()
 export class TweetService {
-  create(createTweetInput: CreateTweetInput) {
-    return 'This action adds a new tweet';
+  constructor(
+    private readonly prisma: PrismaService,
+  ){}
+
+
+  async create(createTweetInput: CreateTweetInput) {
+      
+    const images = createTweetInput.images.map((src)=>{return {src}})
+    const tweet = await this.prisma.tweet.create({
+      include:{
+        images:true,
+        tags:true
+      },
+      data:{
+        userId:createTweetInput.userId,
+        content:createTweetInput.content,
+        images:{
+          create:images
+        },
+        tags:{
+          
+        }
+      }
+    })
+
+createTweetInput.tags.map(async(id)=>{
+  const tagTemp = await this.prisma.tag.findUnique({where:{id},include:{tweets:true}})
+  console.log(tagTemp.tweets)
+  tagTemp.tweets.push(tweet)
+  console.log(tagTemp.tweets)
+  // await this.prisma.tag.update({
+  //   where:{id},
+  //   data:{
+  //     tweets:{
+        
+  //     }
+  //   },
+  //   include:{
+  //     tweets:true
+  //   }
+  // })
+  // const tag =await this.prisma.tag.findUnique({where: {id}})
+})
+    
+  
+    return 'tweet'
   }
 
-  findAll() {
-    return `This action returns all tweet`;
+  async findAll() {
+    return await this.prisma.tweet.findMany() 
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} tweet`;
+  async findOne(id: number) {
+    return await this.prisma.tweet.findUnique({where:{id}}) 
   }
-
-  update(id: number, updateTweetInput: UpdateTweetInput) {
-    return `This action updates a #${id} tweet`;
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} tweet`;
+  
+  async remove(id: number) {
+    return await this.prisma.tweet.delete({where:{id}})
   }
 }
