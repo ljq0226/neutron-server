@@ -45,8 +45,8 @@ input CreateImageInput {
 }
 
 input CreateTagInput {
-  """Example field (placeholder)"""
-  exampleField: Int!
+  """创建标签"""
+  tagName: String!
 }
 
 input CreateTweetInput {
@@ -60,13 +60,13 @@ A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date
 scalar DateTime
 
 type Followed {
-  """Example field (placeholder)"""
-  exampleField: Int!
+  followed: User!
+  id: Int!
 }
 
 type Following {
-  """Example field (placeholder)"""
-  exampleField: Int!
+  following: User!
+  id: Int!
 }
 
 type Image {
@@ -87,12 +87,13 @@ input LoginInput {
 }
 
 type Mutation {
+  Tag_Create(createTagInput: CreateTagInput!): Tag!
+  Tag_Remove(id: Int!): Tag!
   changePassword(data: ChangePasswordInput!): User!
   createComment(createCommentInput: CreateCommentInput!): Comment!
   createFollowed(createFollowedInput: CreateFollowedInput!): Followed!
   createFollowing(createFollowingInput: CreateFollowingInput!): Following!
   createImage(createImageInput: CreateImageInput!): Image!
-  createTag(createTagInput: CreateTagInput!): Tag!
   createTweet(createTweetInput: CreateTweetInput!): Tweet!
   login(data: LoginInput!): Auth!
   refreshToken(token: JWT!): Token!
@@ -100,19 +101,20 @@ type Mutation {
   removeFollowed(id: Int!): Followed!
   removeFollowing(id: Int!): Following!
   removeImage(id: Int!): Image!
-  removeTag(id: Int!): Tag!
   removeTweet(id: Int!): Tweet!
   signup(data: SignupInput!): Auth!
   updateComment(updateCommentInput: UpdateCommentInput!): Comment!
   updateFollowed(updateFollowedInput: UpdateFollowedInput!): Followed!
   updateFollowing(updateFollowingInput: UpdateFollowingInput!): Following!
   updateImage(updateImageInput: UpdateImageInput!): Image!
-  updateTag(updateTagInput: UpdateTagInput!): Tag!
   updateTweet(updateTweetInput: UpdateTweetInput!): Tweet!
   updateUser(data: UpdateUserInput!): User!
 }
 
 type Query {
+  """返回所有tags"""
+  Tag_FindAll: [Tag!]!
+  Tag_FindById(id: Int!): Tag!
   comment(id: Int!): Comment!
   followed(id: Int!): Followed!
   following(id: Int!): Following!
@@ -120,7 +122,6 @@ type Query {
   hello(name: String!): String!
   helloWorld: String!
   image(id: Int!): Image!
-  tag(id: Int!): Tag!
   tweet(id: Int!): Tweet!
 }
 
@@ -150,8 +151,13 @@ type Token {
 }
 
 type Tweet {
-  """Example field (placeholder)"""
-  exampleField: Int!
+  comments: Comment!
+  content: String!
+  createAt: DateTime!
+  id: Int!
+  images: Image!
+  like: Int!
+  tags: Tag!
 }
 
 input UpdateCommentInput {
@@ -178,12 +184,6 @@ input UpdateImageInput {
   id: Int!
 }
 
-input UpdateTagInput {
-  """Example field (placeholder)"""
-  exampleField: Int
-  id: Int!
-}
-
 input UpdateTweetInput {
   """Example field (placeholder)"""
   exampleField: Int
@@ -197,8 +197,10 @@ input UpdateUserInput {
 type User {
   """Identifies the date and time when the object was created."""
   createdAt: DateTime!
-  id: ID!
+  id: String!
+  points: Int!
   role: Role!
+  tweets: Tweet!
 
   """Identifies the date and time when the object was last updated."""
   updatedAt: DateTime!
