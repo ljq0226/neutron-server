@@ -7,6 +7,6 @@ export class Tag {
   id: number;
   @Field(() => String)
   tagName: string;
-  @Field(() => Tweet)
+  @Field(() => [Tweet],{nullable:'items'})
   tweets: Tweet[];
 }

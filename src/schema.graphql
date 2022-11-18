@@ -117,20 +117,14 @@ type Query {
   Tag_FindAll: [Tag!]!
   Tag_FindById(id: Int!): Tag!
   Tweet_FindAll: [Tweet!]!
+  User_GetInfoById: User!
   comment(id: Int!): Comment!
   findOne(id: Int!): Tweet!
   followed(id: Int!): Followed!
   following(id: Int!): Following!
-  getUsers: [User!]!
   hello(name: String!): String!
   helloWorld: String!
   image(id: Int!): Image!
-}
-
-"""User role"""
-enum Role {
-  ADMIN
-  USER
 }
 
 input SignupInput {
@@ -141,7 +135,7 @@ input SignupInput {
 type Tag {
   id: Int!
   tagName: String!
-  tweets: Tweet!
+  tweets: [Tweet]!
 }
 
 type Token {
@@ -153,13 +147,13 @@ type Token {
 }
 
 type Tweet {
-  comments: Comment!
+  comments: [Comment!]!
   content: String!
   createAt: DateTime!
   id: Int!
-  images: Image!
+  images: [Image]
   like: Int!
-  tags: Tag!
+  tags: [Tag]
 }
 
 input UpdateCommentInput {
@@ -191,14 +185,10 @@ input UpdateUserInput {
 }
 
 type User {
-  """Identifies the date and time when the object was created."""
   createdAt: DateTime!
   id: String!
   points: Int!
-  role: Role!
-  tweets: Tweet!
-
-  """Identifies the date and time when the object was last updated."""
-  updatedAt: DateTime!
+  role: String!
+  tweets: [Tweet]
   username: String!
 }

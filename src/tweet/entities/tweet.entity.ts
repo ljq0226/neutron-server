@@ -8,15 +8,15 @@ export class Tweet {
   id: number;
   @Field(()=>String)
   content: string;
-  @Field(()=>Image)
+  @Field(()=>[Image],{nullable:'itemsAndList'})
   images:Image[];
   @Field(() => Int)
   like: number;
   @Field(()=>Date)
   createAt:Date
-  @Field(()=>Tag)
+  @Field(()=>[Tag],{nullable:'itemsAndList'})
   tags:Tag[];
-  @Field(()=>Comment)
+  @Field(()=>[Comment])
   comments:Tag[];
   
 }

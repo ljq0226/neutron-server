@@ -23,9 +23,11 @@ export class UsersResolver {
     private prisma: PrismaService
   ) {}
   //获取用户所有信息
-  @Query(() => [User])
-  async getUsers() {
-    return this.usersService.getUSers();
+  @Query(() => User)
+  User_GetInfoById(
+    @UserEntity() user: User,
+  ) {
+    return this.usersService.getUserInfoById(user.id);
   }
   //更新用户信息
   @UseGuards(GqlAuthGuard)

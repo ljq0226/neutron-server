@@ -9,8 +9,8 @@ import {
 import { BaseModel } from 'src/common/models/base.model';
 import { Tweet } from 'src/tweet/entities/tweet.entity';
 export enum Role {
-  ADMIN,
-  USER,
+  ADMIN= 'ADMIN',
+  USER= 'USER',
 }
 
 registerEnumType(Role, {
@@ -19,7 +19,7 @@ registerEnumType(Role, {
 });
 
 @ObjectType()
-export class User extends BaseModel {
+export class User {
 
   @Field()
   id: string;
@@ -27,17 +27,20 @@ export class User extends BaseModel {
   @Field()
   username: string;
 
-  
+  @Field()
+  createdAt: Date
+
+
   @HideField()
   password: string;
 
-  @Field(() => Role)
+  @Field()
   role: Role;
 
   @Field()
   points: number;
 
-  @Field(()=>Tweet)
+  @Field(()=>[Tweet],{nullable:'itemsAndList'})
   tweets: Tweet[];
 
 
