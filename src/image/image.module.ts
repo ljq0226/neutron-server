@@ -3,6 +3,6 @@ import { ImageService } from './image.service';
 import { ImageResolver } from './image.resolver';
 
 @Module({
-  providers: [ImageResolver, ImageService]
+  providers: [ImageResolver, ImageService],
 })
 export class ImageModule {}

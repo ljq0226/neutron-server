@@ -13,11 +13,10 @@ import { SignupInput } from './dto/signup.input';
 import { Token } from './models/token.model';
 import { SecurityConfig } from 'src/common/configs/config.interface';
 
-
 enum Role {
-  ADMIN= 'ADMIN',
-  USER= 'USER'
-};
+  ADMIN = 'ADMIN',
+  USER = 'USER',
+}
 @Injectable()
 export class AuthService {
   constructor(
@@ -33,23 +32,20 @@ export class AuthService {
     );
 
     try {
-
       const following = await this.prisma.following.create({
-        data:{
-        }
-      })
+        data: {},
+      });
       const followed = await this.prisma.followed.create({
-        data:{
-        }
-      })
+        data: {},
+      });
       const user = await this.prisma.user.create({
         data: {
           ...payload,
           password: hashedPassword,
-          role:Role.USER,
-          points:0,
-          followedId:following.id,
-          followingId:followed.id,
+          role: Role.USER,
+          points: 0,
+          followedId: following.id,
+          followingId: followed.id,
         },
       });
 
@@ -58,7 +54,9 @@ export class AuthService {
       });
     } catch (e) {
       if (e.code === 'P2002') {
-        throw new ConflictException(`username ${payload.username} already used.`);
+        throw new ConflictException(
+          `username ${payload.username} already used.`
+        );
       }
       throw new Error(e);
     }

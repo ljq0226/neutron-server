@@ -24,9 +24,7 @@ export class UsersResolver {
   ) {}
   //获取用户所有信息
   @Query(() => User)
-  User_GetInfoById(
-    @UserEntity() user: User,
-  ) {
+  User_GetInfoById(@UserEntity() user: User) {
     return this.usersService.getUserInfoById(user.id);
   }
   //更新用户信息
@@ -38,7 +36,7 @@ export class UsersResolver {
   ) {
     return this.usersService.updateUser(user.id, newUserData);
   }
- //更改密码
+  //更改密码
   @UseGuards(GqlAuthGuard)
   @Mutation(() => User)
   async changePassword(

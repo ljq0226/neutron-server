@@ -8,7 +8,7 @@ import { AuthService } from './auth.service';
 import { AuthResolver } from './auth.resolver';
 import { JwtStrategy } from './strategy/jwt.strategy';
 import { SecurityConfig } from 'src/common/configs/config.interface';
-import {JWT_REFRESH_SECRET,JWT_ACCESS_SECRET} from './constants'
+import { JWT_REFRESH_SECRET, JWT_ACCESS_SECRET } from './constants';
 
 @Module({
   imports: [
@@ -21,7 +21,7 @@ import {JWT_REFRESH_SECRET,JWT_ACCESS_SECRET} from './constants'
           signOptions: {
             expiresIn: securityConfig.expiresIn,
           },
-          secretOrPrivateKey: JWT_REFRESH_SECRET
+          secretOrPrivateKey: JWT_REFRESH_SECRET,
         };
       },
       inject: [ConfigService],

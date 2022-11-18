@@ -6,17 +6,16 @@ import { Comment } from 'src/comment/entities/comment.entity';
 export class Tweet {
   @Field(() => Int)
   id: number;
-  @Field(()=>String)
+  @Field(() => String)
   content: string;
-  @Field(()=>[Image],{nullable:'itemsAndList'})
-  images:Image[];
+  @Field(() => [Image], { nullable: 'itemsAndList' })
+  images: Image[];
   @Field(() => Int)
   like: number;
-  @Field(()=>Date)
-  createAt:Date
-  @Field(()=>[Tag],{nullable:'itemsAndList'})
-  tags:Tag[];
-  @Field(()=>[Comment])
-  comments:Tag[];
-  
+  @Field(() => Date)
+  createAt: Date;
+  @Field(() => [Tag], { nullable: 'itemsAndList' })
+  tags: Tag[];
+  @Field(() => [Comment])
+  comments: Tag[];
 }

@@ -2,7 +2,7 @@ import { ObjectType, Field, Int } from '@nestjs/graphql';
 import { Tweet } from '../../tweet/entities/tweet.entity';
 
 @ObjectType()
-export class Comment{
+export class Comment {
   @Field(() => Int)
   id: number;
   @Field(() => String)
@@ -11,6 +11,6 @@ export class Comment{
   tweetId: number;
   @Field(() => Tweet)
   tweet: Tweet;
-  @Field(()=>Date)
-  createAt:Date
+  @Field(() => Date)
+  createAt: Date;
 }

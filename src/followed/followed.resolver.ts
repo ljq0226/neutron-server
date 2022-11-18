@@ -9,7 +9,9 @@ export class FollowedResolver {
   constructor(private readonly followedService: FollowedService) {}
 
   @Mutation(() => Followed)
-  createFollowed(@Args('createFollowedInput') createFollowedInput: CreateFollowedInput) {
+  createFollowed(
+    @Args('createFollowedInput') createFollowedInput: CreateFollowedInput
+  ) {
     return this.followedService.create(createFollowedInput);
   }
 
@@ -24,8 +26,13 @@ export class FollowedResolver {
   }
 
   @Mutation(() => Followed)
-  updateFollowed(@Args('updateFollowedInput') updateFollowedInput: UpdateFollowedInput) {
-    return this.followedService.update(updateFollowedInput.id, updateFollowedInput);
+  updateFollowed(
+    @Args('updateFollowedInput') updateFollowedInput: UpdateFollowedInput
+  ) {
+    return this.followedService.update(
+      updateFollowedInput.id,
+      updateFollowedInput
+    );
   }
 
   @Mutation(() => Followed)

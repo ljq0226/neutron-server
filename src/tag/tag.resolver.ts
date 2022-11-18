@@ -5,7 +5,7 @@ import { CreateTagInput } from './dto/create-tag.input';
 
 @Resolver(() => Tag)
 export class TagResolver {
-  constructor(private readonly tagService: TagService) { }
+  constructor(private readonly tagService: TagService) {}
 
   //创建tag
   @Mutation(() => Tag)
@@ -13,7 +13,7 @@ export class TagResolver {
     return this.tagService.create(createTagInput);
   }
 
-  @Query(() => [Tag], { description: "返回所有tags" })
+  @Query(() => [Tag], { description: '返回所有tags' })
   Tag_FindAll() {
     return this.tagService.findAll();
   }

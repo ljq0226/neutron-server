@@ -3,6 +3,6 @@ import { TagService } from './tag.service';
 import { TagResolver } from './tag.resolver';
 
 @Module({
-  providers: [TagResolver, TagService]
+  providers: [TagResolver, TagService],
 })
-export class TagModule { }
+export class TagModule {}

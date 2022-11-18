@@ -9,8 +9,8 @@ import {
 import { BaseModel } from 'src/common/models/base.model';
 import { Tweet } from 'src/tweet/entities/tweet.entity';
 export enum Role {
-  ADMIN= 'ADMIN',
-  USER= 'USER',
+  ADMIN = 'ADMIN',
+  USER = 'USER',
 }
 
 registerEnumType(Role, {
@@ -20,7 +20,6 @@ registerEnumType(Role, {
 
 @ObjectType()
 export class User {
-
   @Field()
   id: string;
 
@@ -28,8 +27,7 @@ export class User {
   username: string;
 
   @Field()
-  createdAt: Date
-
+  createdAt: Date;
 
   @HideField()
   password: string;
@@ -40,10 +38,6 @@ export class User {
   @Field()
   points: number;
 
-  @Field(()=>[Tweet],{nullable:'itemsAndList'})
+  @Field(() => [Tweet], { nullable: 'itemsAndList' })
   tweets: Tweet[];
-
-
-
-
 }

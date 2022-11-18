@@ -9,7 +9,7 @@ export class UsersService {
   constructor(
     private prisma: PrismaService,
     private passwordService: PasswordService
-  ) { }
+  ) {}
 
   updateUser(userId: string, newUserData: UpdateUserInput) {
     return this.prisma.user.update({
@@ -20,19 +20,19 @@ export class UsersService {
     });
   }
   async getUserInfoById(id: string) {
-    console.log(id)
+    console.log(id);
     const user = await this.prisma.user.findUnique({
       where: { id },
       include: {
         tweets: {
-          include:{
-            images:true
-          }
-        }
-      }
-    })
-    console.log(user)
-    return user
+          include: {
+            images: true,
+          },
+        },
+      },
+    });
+    console.log(user);
+    return user;
   }
 
   async changePassword(

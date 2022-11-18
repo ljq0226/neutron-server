@@ -4,7 +4,7 @@ import { User } from 'src/users/entity/user.entity';
 @ObjectType()
 export class Following {
   @Field()
-  id:number
-  @Field(()=>User)
-  following:User[]
+  id: number;
+  @Field(() => User)
+  following: User[];
 }
