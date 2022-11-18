@@ -10,10 +10,9 @@ export class TweetService {
     private readonly prisma: PrismaService,
   ){}
 
-
   async create(createTweetInput: CreateTweetInput) {
-      
     const images = createTweetInput.images.map((src)=>{return {src}})
+    const tags = createTweetInput.tags.map((id)=>{return {id}})
     const tweet = await this.prisma.tweet.create({
       include:{
         images:true,
@@ -22,36 +21,15 @@ export class TweetService {
       data:{
         userId:createTweetInput.userId,
         content:createTweetInput.content,
+        tags:{
+          connect:tags
+        },
         images:{
           create:images
         },
-        tags:{
-          
-        }
       }
     })
-
-createTweetInput.tags.map(async(id)=>{
-  const tagTemp = await this.prisma.tag.findUnique({where:{id},include:{tweets:true}})
-  console.log(tagTemp.tweets)
-  tagTemp.tweets.push(tweet)
-  console.log(tagTemp.tweets)
-  // await this.prisma.tag.update({
-  //   where:{id},
-  //   data:{
-  //     tweets:{
-        
-  //     }
-  //   },
-  //   include:{
-  //     tweets:true
-  //   }
-  // })
-  // const tag =await this.prisma.tag.findUnique({where: {id}})
-})
-    
-  
-    return 'tweet'
+    return tweet
   }
 
   async findAll() {

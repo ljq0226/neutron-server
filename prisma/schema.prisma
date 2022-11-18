@@ -38,21 +38,32 @@ model Followed {
 }
 
 model Tweet {
-  id        Int       @id @default(autoincrement())
-  content   String
-  like      Int       @default(0)
-  User      User      @relation(fields: [userId], references: [id])
-  userId    String
-  images    Image[]
-  tags      Tag[]
-  comments  Comment[]
-  createdAt DateTime  @default(now())
+  id          Int           @id @default(autoincrement())
+  content     String
+  like        Int           @default(0)
+  User        User          @relation(fields: [userId], references: [id])
+  userId      String
+  images      Image[]
+  tags        Tag[]
+  comments    Comment[]
+  createdAt   DateTime      @default(now())
+  TagsOnTweet TagsOnTweet[]
 }
 
 model Tag {
-  id      Int     @id @default(autoincrement())
-  tagName String
-  tweets  Tweet[]
+  id          Int           @id @default(autoincrement())
+  tagName     String        @unique
+  tweets      Tweet[]
+  TagsOnTweet TagsOnTweet[]
+}
+
+model TagsOnTweet {
+  tweet   Tweet @relation(fields: [tweetId], references: [id])
+  tweetId Int
+  tag     Tag   @relation(fields: [tagId], references: [id])
+  tagId   Int
+
+  @@id([tweetId, tagId])
 }
 
 model Comment {
