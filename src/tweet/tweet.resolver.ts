@@ -7,11 +7,6 @@ import { CreateTweetInput } from './dto/create-tweet.input';
 export class TweetResolver {
   constructor(private readonly tweetService: TweetService) {}
 
-  @Mutation(() => Tweet)
-  createTweet(@Args('createTweetInput') createTweetInput: CreateTweetInput) {
-    return this.tweetService.create(createTweetInput);
-  }
-
   @Query(() => [Tweet])
   Tweet_FindAll() {
     return this.tweetService.findAll();
@@ -20,6 +15,11 @@ export class TweetResolver {
   @Query(() => Tweet)
   findOne(@Args('id', { type: () => Int }) id: number) {
     return this.tweetService.findOne(id);
+  }
+
+  @Mutation(() => Tweet)
+  Tweet_Create(@Args('createTweetInput') createTweetInput: CreateTweetInput) {
+    return this.tweetService.create(createTweetInput);
   }
 
   @Mutation(() => Tweet)
