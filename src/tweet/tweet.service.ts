@@ -1,12 +1,13 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, HttpException, HttpStatus } from '@nestjs/common';
 import { Image, Tag } from '@prisma/client';
+import { GraphQLError } from 'graphql';
 import { PrismaService } from 'nestjs-prisma';
 import { CreateTweetInput } from './dto/create-tweet.input';
 import { Tweet } from './entities/tweet.entity';
-
+import Status from 'src/common/error/status';
 @Injectable()
 export class TweetService {
-  constructor(private readonly prisma: PrismaService) {}
+  constructor(private readonly prisma: PrismaService) { }
 
   async create(createTweetInput: CreateTweetInput) {
     const images = createTweetInput.images.map((src) => {
@@ -43,13 +44,12 @@ export class TweetService {
   }
 
   async remove(id: number) {
-    const tweet = await this.prisma.tweet.findUnique({where:{id}})
-    if(tweet){
-      await this.prisma.tweet.delete({ where: { id } });
-      return "删除完成"
-    }else{
-      return '操作失败，无此Tweet'
+    const tweet = await this.prisma.tweet.findUnique({ where: { id } })
+    if (tweet) {
+      await this.prisma.tweet.delete({ where: { id } })
+      return Status.SUCCESS('操作成功')
+    } else {
+      Status.BADREQUEST('删除推id有误,该tweet不存在')
     }
-
   }
 }
