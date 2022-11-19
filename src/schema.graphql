@@ -91,12 +91,12 @@ input LoginInput {
 type Mutation {
   Tag_Create(createTagInput: CreateTagInput!): Tag!
   Tag_Remove(id: Int!): Tag!
+  Tweet_Create(createTweetInput: CreateTweetInput!): Tweet!
   changePassword(data: ChangePasswordInput!): User!
   createComment(createCommentInput: CreateCommentInput!): Comment!
   createFollowed(createFollowedInput: CreateFollowedInput!): Followed!
   createFollowing(createFollowingInput: CreateFollowingInput!): Following!
   createImage(createImageInput: CreateImageInput!): Image!
-  createTweet(createTweetInput: CreateTweetInput!): Tweet!
   login(data: LoginInput!): Auth!
   refreshToken(token: JWT!): Token!
   removeComment(id: Int!): Comment!
@@ -135,7 +135,7 @@ input SignupInput {
 type Tag {
   id: Int!
   tagName: String!
-  tweets: [Tweet]!
+  tweets: [Tweet]
 }
 
 type Token {

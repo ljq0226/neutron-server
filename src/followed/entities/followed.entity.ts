@@ -5,6 +5,6 @@ import { User } from 'src/users/entity/user.entity';
 export class Followed {
   @Field()
   id: number;
-  @Field(() => User, { nullable: 'itemsAndList' })
+  @Field(() => User)
   followed: User[];
 }

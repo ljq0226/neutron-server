@@ -4,6 +4,6 @@ import { Token } from './token.model';
 
 @ObjectType()
 export class Auth extends Token {
-  @Field(() => User, { nullable: 'itemsAndList' })
+  @Field(() => User)
   user: User;
 }

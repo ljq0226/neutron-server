@@ -9,6 +9,6 @@ export class Image {
   src: string;
   @Field(() => Int)
   tweetId: number;
-  @Field(() => Tweet, { nullable: 'itemsAndList' })
+  @Field(() => Tweet)
   tweet: Tweet;
 }

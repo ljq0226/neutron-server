@@ -9,7 +9,7 @@ export class Comment {
   content: string;
   @Field(() => Int)
   tweetId: number;
-  @Field(() => Tweet, { nullable: 'itemsAndList' })
+  @Field(() => Tweet)
   tweet: Tweet;
   @Field(() => Date)
   createAt: Date;
