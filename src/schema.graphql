@@ -92,7 +92,9 @@ type Mutation {
   Tag_Create(createTagInput: CreateTagInput!): Tag!
   Tag_Remove(id: Int!): Tag!
   Tweet_Create(createTweetInput: CreateTweetInput!): Tweet!
-  changePassword(data: ChangePasswordInput!): User!
+  Tweet_Remove(id: Int!): String
+  User_ChangePassword(data: ChangePasswordInput!): User!
+  User_Update(data: UpdateUserInput!): User!
   createComment(createCommentInput: CreateCommentInput!): Comment!
   createFollowed(createFollowedInput: CreateFollowedInput!): Followed!
   createFollowing(createFollowingInput: CreateFollowingInput!): Following!
@@ -103,13 +105,11 @@ type Mutation {
   removeFollowed(id: Int!): Followed!
   removeFollowing(id: Int!): Following!
   removeImage(id: Int!): Image!
-  removeTweet(id: Int!): Tweet!
   signup(data: SignupInput!): Auth!
   updateComment(updateCommentInput: UpdateCommentInput!): Comment!
   updateFollowed(updateFollowedInput: UpdateFollowedInput!): Followed!
   updateFollowing(updateFollowingInput: UpdateFollowingInput!): Following!
   updateImage(updateImageInput: UpdateImageInput!): Image!
-  updateUser(data: UpdateUserInput!): User!
 }
 
 type Query {
@@ -117,9 +117,9 @@ type Query {
   Tag_FindAll: [Tag!]!
   Tag_FindById(id: Int!): Tag!
   Tweet_FindAll: [Tweet!]!
-  User_GetInfoById: User!
+  Tweet_FindOne(id: Int!): Tweet!
+  User_GetInfo: User!
   comment(id: Int!): Comment!
-  findOne(id: Int!): Tweet!
   followed(id: Int!): Followed!
   following(id: Int!): Following!
   hello(name: String!): String!
@@ -147,7 +147,7 @@ type Token {
 }
 
 type Tweet {
-  comments: [Comment!]!
+  comments: [Comment]
   content: String!
   createAt: DateTime!
   id: Int!

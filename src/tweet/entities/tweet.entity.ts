@@ -1,4 +1,4 @@
-import { ObjectType, Field, Int } from '@nestjs/graphql';
+import { ObjectType, Field, Int, GraphQLISODateTime } from '@nestjs/graphql';
 import { Image } from 'src/image/entities/image.entity';
 import { Tag } from 'src/tag/entities/tag.entity';
 import { Comment } from 'src/comment/entities/comment.entity';
@@ -12,10 +12,10 @@ export class Tweet {
   images: Image[];
   @Field(() => Int)
   like: number;
-  @Field(() => Date)
+  @Field(() => GraphQLISODateTime)
   createAt: Date;
   @Field(() => [Tag], { nullable: 'itemsAndList' })
   tags: Tag[];
-  @Field(() => [Comment])
-  comments: Tag[];
+  @Field(() => [Comment], { nullable: 'itemsAndList' })
+  comments: Comment[];
 }

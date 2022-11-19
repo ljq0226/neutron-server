@@ -13,7 +13,7 @@ export class TweetResolver {
   }
 
   @Query(() => Tweet)
-  findOne(@Args('id', { type: () => Int }) id: number) {
+  Tweet_FindOne(@Args('id', { type: () => Int }) id: number) {
     return this.tweetService.findOne(id);
   }
 
@@ -22,8 +22,8 @@ export class TweetResolver {
     return this.tweetService.create(createTweetInput);
   }
 
-  @Mutation(() => Tweet)
-  removeTweet(@Args('id', { type: () => Int }) id: number) {
+  @Mutation(()=>String,{nullable: true})
+  Tweet_Remove(@Args('id', { type: () => Int }) id: number) {
     return this.tweetService.remove(id);
   }
 }

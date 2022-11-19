@@ -43,6 +43,13 @@ export class TweetService {
   }
 
   async remove(id: number) {
-    return await this.prisma.tweet.delete({ where: { id } });
+    const tweet = await this.prisma.tweet.findUnique({where:{id}})
+    if(tweet){
+      await this.prisma.tweet.delete({ where: { id } });
+      return "删除完成"
+    }else{
+      return '操作失败，无此Tweet'
+    }
+
   }
 }

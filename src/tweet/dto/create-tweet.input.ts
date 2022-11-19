@@ -1,6 +1,4 @@
 import { InputType, Int, Field } from '@nestjs/graphql';
-import { Image } from 'src/image/entities/image.entity';
-import { Tag } from 'src/tag/entities/tag.entity';
 
 @InputType()
 export class CreateTweetInput {

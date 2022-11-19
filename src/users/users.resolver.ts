@@ -24,13 +24,13 @@ export class UsersResolver {
   ) {}
   //获取用户所有信息
   @Query(() => User)
-  User_GetInfoById(@UserEntity() user: User) {
+  User_GetInfo(@UserEntity() user: User) {
     return this.usersService.getUserInfoById(user.id);
   }
   //更新用户信息
   @UseGuards(GqlAuthGuard)
   @Mutation(() => User)
-  async updateUser(
+  async User_Update(
     @UserEntity() user: User,
     @Args('data') newUserData: UpdateUserInput
   ) {
@@ -39,7 +39,7 @@ export class UsersResolver {
   //更改密码
   @UseGuards(GqlAuthGuard)
   @Mutation(() => User)
-  async changePassword(
+  async User_ChangePassword(
     @UserEntity() user: User,
     @Args('data') changePassword: ChangePasswordInput
   ) {

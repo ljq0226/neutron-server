@@ -26,6 +26,7 @@ export class UsersService {
       include: {
         tweets: {
           include: {
+            tags: true,
             images: true,
           },
         },
